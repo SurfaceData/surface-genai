@@ -2168,6 +2168,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@chakra-ui/icons@npm:^1.0.0":
+  version: 1.1.7
+  resolution: "@chakra-ui/icons@npm:1.1.7"
+  dependencies:
+    "@chakra-ui/icon": 2.0.5
+    "@types/react": ^17.0.15
+  peerDependencies:
+    "@chakra-ui/system": ">=1.0.0"
+    react: ">=16.8.6"
+  checksum: 68707c7512f8f5e39e7e8bfa3d2faa1be39733d6513732855ec5e48a058b05e3fbc2755f05f85f2f90e0e0579cc24abf20ac86b53aba14a405596eb06aca7e31
+  languageName: node
+  linkType: hard
+
 "@chakra-ui/image@npm:1.1.10":
   version: 1.1.10
   resolution: "@chakra-ui/image@npm:1.1.10"
@@ -2494,6 +2507,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@chakra-ui/shared-utils@npm:2.0.5":
+  version: 2.0.5
+  resolution: "@chakra-ui/shared-utils@npm:2.0.5"
+  checksum: d9095a4abb678e382f8fdf882a2e50fde5789267b9bf7165bd06babcbd0afcb0c8c319b78922b7ea9fdbf22659623fa8604cd76bcfec8750304fa4614c73a3f0
+  languageName: node
+  linkType: hard
+
 "@chakra-ui/skeleton@npm:1.2.14":
   version: 1.2.14
   resolution: "@chakra-ui/skeleton@npm:1.2.14"
@@ -2559,6 +2579,17 @@ __metadata:
     "@chakra-ui/utils": 1.10.4
     csstype: 3.0.9
   checksum: 95e0f651c15e99269ac00476a0f23dbc8d091aacaedb25b05e86abdab52b9e967f400b041e862afa0a46ffad71a184888eeba7354e4e81a9e600942f371a4400
+  languageName: node
+  linkType: hard
+
+"@chakra-ui/styled-system@npm:^2.3.5":
+  version: 2.5.2
+  resolution: "@chakra-ui/styled-system@npm:2.5.2"
+  dependencies:
+    "@chakra-ui/shared-utils": 2.0.5
+    csstype: ^3.0.11
+    lodash.mergewith: 4.6.2
+  checksum: 56c8d13d34b7af86c4819294b63fc2f3c49ba9c987a6582fae3e3933853f99d5f66d36f8b76ea966b648029b13a534b6a871e0d468120a6cb8ca3a55e3e48d0f
   languageName: node
   linkType: hard
 
@@ -4800,6 +4831,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@npmcli/package-json@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "@npmcli/package-json@npm:2.0.0"
+  dependencies:
+    json-parse-even-better-errors: ^2.3.1
+  checksum: 67aa80bb75e2f8d328c5225caf31d63499b01dd8b094e739b84de442b5411ba1040374cea113ccbcd3f0dda8b872a243e74d937b584c9040e8af6a90d42a564e
+  languageName: node
+  linkType: hard
+
 "@open-draft/until@npm:^1.0.3":
   version: 1.0.3
   resolution: "@open-draft/until@npm:1.0.3"
@@ -6986,6 +7026,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@surfacedata/sd-components@npm:^0.0.16":
+  version: 0.0.16
+  resolution: "@surfacedata/sd-components@npm:0.0.16"
+  dependencies:
+    "@chakra-ui/icons": ^1.0.0
+    "@chakra-ui/styled-system": ^2.3.5
+    "@npmcli/package-json": ^2.0.0
+    react-icons: ^4.6.0
+  peerDependencies:
+    "@chakra-ui/react": 1.8.9
+    react: ">=17.0.0"
+    react-dom: ">=17.8.0"
+  checksum: 0de9d25a862ced050147b2d843b584a5b63e5836afddf3579411e5217e4f3d3ad695401639acedac2eb1b9dce5ab61b751810b99199ba544301040cb4509cbc9
+  languageName: node
+  linkType: hard
+
 "@szmarczak/http-timer@npm:^1.1.2":
   version: 1.1.2
   resolution: "@szmarczak/http-timer@npm:1.1.2"
@@ -7696,7 +7752,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:17.0.53, @types/react@npm:^17":
+"@types/react@npm:17.0.53, @types/react@npm:^17, @types/react@npm:^17.0.15":
   version: 17.0.53
   resolution: "@types/react@npm:17.0.53"
   dependencies:
@@ -8964,6 +9020,8 @@ __metadata:
   dependencies:
     "@redwoodjs/api": 4.1.2
     "@redwoodjs/graphql-server": 4.1.2
+    liquidjs: ^10.4.0
+    node-fetch: ^3.3.0
   languageName: unknown
   linkType: soft
 
@@ -12005,7 +12063,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"csstype@npm:^3.0.2":
+"csstype@npm:^3.0.11, csstype@npm:^3.0.2":
   version: 3.1.1
   resolution: "csstype@npm:3.1.1"
   checksum: 7c8b8c5923049d84132581c13bae6e1faf999746fe3998ba5f3819a8e1cdc7512ace87b7d0a4a69f0f4b8ba11daf835d4f1390af23e09fc4f0baad52c084753a
@@ -12039,6 +12097,13 @@ __metadata:
   version: 2.0.2
   resolution: "data-uri-to-buffer@npm:2.0.2"
   checksum: 341b6191ed65fa453e97a6d44db06082121ebc2ef3e6e096dfb6a1ebbc75e8be39d4199a5b4dba0f0efc43f2a3b2bcc276d85cf1407eba880eb09ebf17c3c31e
+  languageName: node
+  linkType: hard
+
+"data-uri-to-buffer@npm:^4.0.0":
+  version: 4.0.1
+  resolution: "data-uri-to-buffer@npm:4.0.1"
+  checksum: 20a6b93107597530d71d4cb285acee17f66bcdfc03fd81040921a81252f19db27588d87fc8fc69e1950c55cfb0bf8ae40d0e5e21d907230813eb5d5a7f9eb45b
   languageName: node
   linkType: hard
 
@@ -13967,6 +14032,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"fetch-blob@npm:^3.1.2, fetch-blob@npm:^3.1.4":
+  version: 3.2.0
+  resolution: "fetch-blob@npm:3.2.0"
+  dependencies:
+    node-domexception: ^1.0.0
+    web-streams-polyfill: ^3.0.3
+  checksum: 60054bf47bfa10fb0ba6cb7742acec2f37c1f56344f79a70bb8b1c48d77675927c720ff3191fa546410a0442c998d27ab05e9144c32d530d8a52fbe68f843b69
+  languageName: node
+  linkType: hard
+
 "fetch-retry@npm:^5.0.2":
   version: 5.0.3
   resolution: "fetch-retry@npm:5.0.3"
@@ -14322,6 +14397,15 @@ __metadata:
     combined-stream: ^1.0.8
     mime-types: ^2.1.12
   checksum: cb6f3ac49180be03ff07ba3ff125f9eba2ff0b277fb33c7fc47569fc5e616882c5b1c69b9904c4c4187e97dd0419dd03b134174756f296dec62041e6527e2c6e
+  languageName: node
+  linkType: hard
+
+"formdata-polyfill@npm:^4.0.10":
+  version: 4.0.10
+  resolution: "formdata-polyfill@npm:4.0.10"
+  dependencies:
+    fetch-blob: ^3.1.2
+  checksum: 5392ec484f9ce0d5e0d52fb5a78e7486637d516179b0eb84d81389d7eccf9ca2f663079da56f761355c0a65792810e3b345dc24db9a8bbbcf24ef3c8c88570c6
   languageName: node
   linkType: hard
 
@@ -17734,6 +17818,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"liquidjs@npm:^10.4.0":
+  version: 10.4.0
+  resolution: "liquidjs@npm:10.4.0"
+  bin:
+    liquid: bin/liquid.js
+    liquidjs: bin/liquid.js
+  checksum: c56cc47f96d9b9a851323fb0118231100b24006d6b3de5881572b643ad516a3b7c2aec4d62c66c7cc4dde7b962bfed3db8e0fd4da1854ea6592f81e7da104bf1
+  languageName: node
+  linkType: hard
+
 "listr2@npm:5.0.7":
   version: 5.0.7
   resolution: "listr2@npm:5.0.7"
@@ -18954,6 +19048,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"node-domexception@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "node-domexception@npm:1.0.0"
+  checksum: 5e5d63cda29856402df9472335af4bb13875e1927ad3be861dc5ebde38917aecbf9ae337923777af52a48c426b70148815e890a5d72760f1b4d758cc671b1a2b
+  languageName: node
+  linkType: hard
+
 "node-environment-flags@npm:^1.0.5":
   version: 1.0.6
   resolution: "node-environment-flags@npm:1.0.6"
@@ -18989,6 +19090,17 @@ __metadata:
     encoding:
       optional: true
   checksum: 7a4a0e027e509b741bec4172749103f158da23187ff251cb988dd54ea7267519c3fa11838971da0f5f3c54e79da3174e7bd72aa2179c9f69887511ece16c9c0f
+  languageName: node
+  linkType: hard
+
+"node-fetch@npm:^3.3.0":
+  version: 3.3.0
+  resolution: "node-fetch@npm:3.3.0"
+  dependencies:
+    data-uri-to-buffer: ^4.0.0
+    fetch-blob: ^3.1.4
+    formdata-polyfill: ^4.0.10
+  checksum: aaacc95460358c56f17fdaa8e65dbe2a7afd26c0b0c0f72edb96cc55901e7d4eab4e7d2c922e91c41f1c442a469aad65d60782e2c3e3b12492742c06e741fbd1
   languageName: node
   linkType: hard
 
@@ -21292,6 +21404,15 @@ __metadata:
     react: ">=16"
     react-dom: ">=16"
   checksum: 1df097bd2e4bdb54ff8ed96e0bf877999928704c2f30832867c7d6ee5db2bd059e949650e0b8391330172e2d9dfcf2b0ab1ae1acb72c6c4ee27850f583821b86
+  languageName: node
+  linkType: hard
+
+"react-icons@npm:^4.6.0":
+  version: 4.7.1
+  resolution: "react-icons@npm:4.7.1"
+  peerDependencies:
+    react: "*"
+  checksum: be1d82522feba668df7d6f4d1f6ea59f4d5aca58f761790a5e08fcef50ef27d563a9fe78d803576fa64910607172886d559f6ad1cd9c7857b683b4e16eb50eea
   languageName: node
   linkType: hard
 
@@ -25092,7 +25213,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"web-streams-polyfill@npm:^3.2.1":
+"web-streams-polyfill@npm:^3.0.3, web-streams-polyfill@npm:^3.2.1":
   version: 3.2.1
   resolution: "web-streams-polyfill@npm:3.2.1"
   checksum: 70ed6b5708e14afa2ab699221ea197d7c68ec0c8274bbe0181aecc5ba636ca27cbd383d2049f0eb9d529e738f5c088825502b317f3df24d18a278e4cc9a10e8b
@@ -25109,6 +25230,7 @@ __metadata:
     "@redwoodjs/forms": 4.1.2
     "@redwoodjs/router": 4.1.2
     "@redwoodjs/web": 4.1.2
+    "@surfacedata/sd-components": ^0.0.16
     framer-motion: ^6
     prop-types: 15.8.1
     react: 17.0.2
