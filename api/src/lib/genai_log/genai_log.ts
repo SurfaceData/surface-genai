@@ -1,28 +1,38 @@
-import type { GenerateResult, Provider } from 'src/lib/genai_log/provider'
+import { Liquid } from 'liquidjs';
+
+import type { GenerateResult, Provider } from 'src/lib/genai_log/provider';
+import type { Adapter } from 'src/lib/genai_log/adapter';
 
 export interface GenaiLogConfig {
+  adapter: Adapter;
+
   /**
    * The list of LLM Generator {@code Provider}s.
    */
-  providers: Provider[]
+  providers: Provider[];
 }
 
 class GenaiLog {
+  private readonly adapter: Adapter;
+
+  private engine = new Liquid();
+
   /**
    * A map from provider names to their implementations.
    */
-  private readonly providers: Map<string, provider>
+  private readonly providers: Map<string, provider>;
   /**
    * The original ordering of provider names.
    */
-  private readonly providerNames: string[]
+  private readonly providerNames: string[];
 
   constructor(config: GenaiLogConfig) {
+    this.adapter = config.adapter;
     this.providers = config.providers.reduce((result, provider) => {
-      result.set(provider.name, provider)
-      return result
-    }, new Map<string, provider>())
-    this.providerNames = config.providers.map(({ name }) => name)
+      result.set(provider.name, provider);
+      return result;
+    }, new Map<string, provider>());
+    this.providerNames = config.providers.map(({ name }) => name);
   }
 
   /**
@@ -31,12 +41,19 @@ class GenaiLog {
    *
    * This selects a provider at random.
    */
-  generate(prompt: string): GenerateResult[] {
-    var index = Math.floor(Math.random() * this.providerNames.length)
-    const providerName = this.providerNames[index]
-    const provider = this.providers.get(providerName)
-    return provider.generate(provider, prompt)
+  async generate(label: string, fields): GenerateResult[] {
+    const prompts = await this.adapter.getPromptsByLabel(label);
+    var promptIndex = Math.floor(Math.random() * prompts.length);
+    const { variant, template } = prompts[promptIndex];
+
+    const tpl = this.engine.parse(template);
+    const prompt = await this.engine.render(tpl, fields);
+
+    var providerIndex = Math.floor(Math.random() * this.providerNames.length);
+    const providerName = this.providerNames[providerIndex];
+    const provider = this.providers.get(providerName);
+    return provider.generate(provider, prompt);
   }
 }
 
-export { GenaiLog }
+export { GenaiLog };
