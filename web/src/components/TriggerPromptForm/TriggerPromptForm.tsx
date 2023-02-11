@@ -15,7 +15,7 @@ const GENERATE = gql`
 `
 
 const TriggerPromptForm = () => {
-  const [generate] = useMutation(GENERATE)
+  const [generate, { data: generateResults, loading }] = useMutation(GENERATE)
   const onSubmit = (data) => {
     generate({
       variables: {
@@ -25,6 +25,7 @@ const TriggerPromptForm = () => {
       },
     })
   }
+  console.log(generateResults)
   return (
     <Container>
       <Form onSubmit={onSubmit}>
@@ -35,6 +36,12 @@ const TriggerPromptForm = () => {
         />
         <Button type="submit">Generate</Button>
       </Form>
+      <div>
+        {generateResults &&
+          generateResults.generate.results.map(({ output }, i) => (
+            <div key={i}>{output}</div>
+          ))}
+      </div>
     </Container>
   )
 }

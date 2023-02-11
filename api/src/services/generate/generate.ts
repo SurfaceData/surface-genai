@@ -1,6 +1,7 @@
 import { Liquid } from 'liquidjs'
 
 import { db } from 'src/lib/db'
+import { genai } from 'src/lib/genai'
 
 const engine = new Liquid()
 
@@ -19,12 +20,11 @@ export const generate = async ({ input }) => {
   const { variant, template } = promptOptions[index]
   const tpl = engine.parse(template)
   const prompt = await engine.render(tpl, templateFields)
-  const generationResults = await fetch(
-    `${process.env.GENAI_URL}/generate?prompt=${prompt}`
-  ).then((res) => res.json())
+  const results = await genai.generate(prompt)
+  console.log(results)
   return {
-    results: generationResults.map((result) => ({
-      output: result.completion,
+    results: results.map(({ completion }) => ({
+      output: completion,
     })),
   }
 }
