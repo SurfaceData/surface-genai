@@ -2,21 +2,21 @@ interface GenerateResult {
   completion: string
 }
 
-class Provider {
-  readonly name: string
+interface ProviderConfig {
+  url: string
+  api_key: string
+}
 
+interface Provider {
   /**
    * Stores the provider's name.
    */
-  constructor(name: string) {
-    this.name = name
-  }
+  readonly name: string
 
   /**
    * Given a {@code prompt}, returns an array of completions.
    */
-  generate(prompt: string): GenerateResult[]
+  generate: (prompt: string) => Promise<GenerateResult[]>
 }
 
-export { Provider }
-export type { GenerateResult }
+export type { GenerateResult, Provider, ProviderConfig }

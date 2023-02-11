@@ -1,24 +1,25 @@
-import type { GenerateResult } from 'src/lib/genai_log/provider'
-import { Provider } from 'src/lib/genai_log/provider'
+import type {
+  GenerateResult,
+  Provider,
+  ProviderConfig,
+} from 'src/lib/genai_log/provider'
 
-class GenaiLLMProvider extends Provider {
-  private readonly providerUrl: string
-  private readonly providerKey: string
-
-  constructor(providerUrl: string, providerKey: string) {
-    super('genai_llm')
-    this.providerUrl = providerUrl
-    this.providerKey = providerKey
-  }
-
-  async generate(prompt: string): GenerateResult[] {
-    const generationResults = await fetch(
-      `${this.providerUrl}/generate?prompt=${prompt}`
-    ).then((res) => res.json())
-    return generationResults.map(({ completion }) => ({
-      completion,
-    }))
-  }
+export interface GenaiLLMProvider extends Provider {
+  url: string
+  api_key: string
 }
 
-export { GenaiLLMProvider }
+export default function GenaiLLM(options: ProviderConfig): GenaiLLMProvider {
+  return {
+    name: 'genai_llm',
+    generate: async (provider: Provider, prompt: string): GenerateResult[] => {
+      const generationResults = await fetch(
+        `${provider.url}/generate?prompt=${prompt}`
+      ).then((res) => res.json())
+      return generationResults.map(({ completion }) => ({
+        completion,
+      }))
+    },
+    ...options,
+  }
+}
