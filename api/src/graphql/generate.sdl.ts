@@ -4,14 +4,15 @@ export const schema = gql`
   }
 
   type GenerateResults {
+    requestId: Int!
     results: [GenerateResult]
   }
 
   type GenerateResult {
-    output: String!
+    completion: String!
   }
 
   type Mutation {
     generate(input: GenerateRequest!): GenerateResults! @skipAuth
   }
-`
+`;

@@ -2,7 +2,7 @@ import type {
   GenerateResult,
   Provider,
   ProviderConfig,
-} from 'src/lib/genai_log/provider'
+} from 'src/lib/genai_log/provider';
 
 export interface GenaiLLMProvider extends Provider {}
 
@@ -15,13 +15,20 @@ export default function GenaiLLM(options: ProviderConfig): GenaiLLMProvider {
   return {
     name: 'genai_llm',
     generate: async (provider: Provider, prompt: string): GenerateResult[] => {
-      const generationResults = await fetch(
-        `${provider.url}/generate?prompt=${prompt}`
-      ).then((res) => res.json())
+      const generationResults = await fetch(`${provider.url}/generate`, {
+        method: 'POST',
+        body: JSON.stringify({
+          prompt,
+          n: 2,
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }).then((res) => res.json());
       return generationResults.map(({ completion }) => ({
         completion,
-      }))
+      }));
     },
     ...options,
-  }
+  };
 }

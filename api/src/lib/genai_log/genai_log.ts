@@ -12,6 +12,11 @@ export interface GenaiLogConfig {
   providers: Provider[];
 }
 
+export interface GenaiResult {
+  results: GenerateResult[];
+  requestId: number;
+}
+
 class GenaiLog {
   private readonly adapter: Adapter;
 
@@ -41,7 +46,7 @@ class GenaiLog {
    *
    * This selects a provider at random.
    */
-  async generate(label: string, fields): GenerateResult[] {
+  async generate(label: string, fields): GenaiResult {
     // Figure out which prompt we will use.
     const prompts = await this.adapter.getPromptsByLabel(label);
     var promptIndex = Math.floor(Math.random() * prompts.length);
@@ -58,7 +63,7 @@ class GenaiLog {
     const results = await provider.generate(provider, prompt);
 
     // Log everything.
-    await this.adapter.saveInteraction(
+    const requestId = await this.adapter.saveInteraction(
       prompts[promptIndex].id,
       prompt,
       results,
@@ -66,7 +71,10 @@ class GenaiLog {
     );
 
     // Done.
-    return results;
+    return {
+      requestId,
+      results,
+    };
   }
 }
 

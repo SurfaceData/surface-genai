@@ -8,7 +8,7 @@ const GENERATE = gql`
   mutation GenerateMutation($input: GenerateRequest!) {
     generate(input: $input) {
       results {
-        output
+        completion
       }
     }
   }
@@ -25,7 +25,6 @@ const TriggerPromptForm = () => {
       },
     });
   };
-  console.log(generateResults);
   return (
     <Container>
       <Form onSubmit={onSubmit}>
@@ -39,8 +38,8 @@ const TriggerPromptForm = () => {
       <div>
         {loading && <Spinner />}
         {generateResults &&
-          generateResults.generate.results.map(({ output }, i) => (
-            <div key={i}>{output}</div>
+          generateResults.generate.results.map(({ completion }, i) => (
+            <div key={i}>{completion}</div>
           ))}
       </div>
     </Container>
