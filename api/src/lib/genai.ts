@@ -1,12 +1,14 @@
 import { GenaiLog } from 'src/lib/genai_log/genai_log';
 import GenaiLLM from 'src/lib/genai_log/genai_llm_provider';
 import OpenAI from 'src/lib/genai_log/openai_provider';
+import RandomExperimentManager from 'src/lib/genai_log/random_experiment_manager';
 import { PrismaAdapter } from 'src/lib/genai_log/prisma_adapter';
 
 import { db } from 'src/lib/db';
 
 const genai = new GenaiLog({
   adapter: PrismaAdapter(db),
+  experimentManager: RandomExperimentManager(),
   providers: [
     GenaiLLM({ url: process.env.GENAI_URL, api_key: '' }),
     /*

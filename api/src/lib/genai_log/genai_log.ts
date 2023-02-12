@@ -1,10 +1,13 @@
 import { Liquid } from 'liquidjs';
 
-import type { GenerateResult, Provider } from 'src/lib/genai_log/provider';
 import type { Adapter } from 'src/lib/genai_log/adapter';
+import type { ExperimentManager } from 'src/lib/genai_log/experiment_manager';
+import type { GenerateResult, Provider } from 'src/lib/genai_log/provider';
 
 export interface GenaiLogConfig {
   adapter: Adapter;
+
+  experimentManager: ExperimentManager;
 
   /**
    * The list of LLM Generator {@code Provider}s.
@@ -20,6 +23,8 @@ export interface GenaiResult {
 class GenaiLog {
   private readonly adapter: Adapter;
 
+  private readonly experimentManager: ExperimentManager;
+
   private engine = new Liquid();
 
   /**
@@ -33,6 +38,7 @@ class GenaiLog {
 
   constructor(config: GenaiLogConfig) {
     this.adapter = config.adapter;
+    this.experimentManager = config.experimentManager;
     this.providers = config.providers.reduce((result, provider) => {
       result.set(provider.name, provider);
       return result;
@@ -47,27 +53,33 @@ class GenaiLog {
    * This selects a provider at random.
    */
   async generate(label: string, fields): GenaiResult {
-    // Figure out which prompt we will use.
-    const prompts = await this.adapter.getPromptsByLabel(label);
-    var promptIndex = Math.floor(Math.random() * prompts.length);
-    const { variant, template } = prompts[promptIndex];
+    // Select the prompt to use.
+    const prompt = await this.experimentManager.selectPrompt(
+      '',
+      this.adapter,
+      label
+    );
 
     // Complete the prompt with the fields.
-    const tpl = this.engine.parse(template);
-    const prompt = await this.engine.render(tpl, fields);
+    const tpl = this.engine.parse(prompt.template);
+    const renderedPrompt = await this.engine.render(tpl, fields);
 
     // Figure out which provider we will use.
-    var providerIndex = Math.floor(Math.random() * this.providerNames.length);
-    const providerName = this.providerNames[providerIndex];
-    const provider = this.providers.get(providerName);
-    const results = await provider.generate(provider, prompt);
+    const provider = this.experimentManager.selectProvider(
+      '',
+      this.providers,
+      this.providerNames
+    );
+
+    // Generate.
+    const results = await provider.generate(provider, renderedPrompt);
 
     // Log everything.
     const requestId = await this.adapter.saveInteraction(
-      prompts[promptIndex].id,
-      prompt,
+      prompt.id,
+      renderedPrompt,
       results,
-      providerName
+      provider.name
     );
 
     // Done.
