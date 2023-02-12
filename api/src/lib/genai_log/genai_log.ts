@@ -42,17 +42,31 @@ class GenaiLog {
    * This selects a provider at random.
    */
   async generate(label: string, fields): GenerateResult[] {
+    // Figure out which prompt we will use.
     const prompts = await this.adapter.getPromptsByLabel(label);
     var promptIndex = Math.floor(Math.random() * prompts.length);
     const { variant, template } = prompts[promptIndex];
 
+    // Complete the prompt with the fields.
     const tpl = this.engine.parse(template);
     const prompt = await this.engine.render(tpl, fields);
 
+    // Figure out which provider we will use.
     var providerIndex = Math.floor(Math.random() * this.providerNames.length);
     const providerName = this.providerNames[providerIndex];
     const provider = this.providers.get(providerName);
-    return provider.generate(provider, prompt);
+    const results = await provider.generate(provider, prompt);
+
+    // Log everything.
+    await this.adapter.saveInteraction(
+      prompts[promptIndex].id,
+      prompt,
+      results,
+      providerName
+    );
+
+    // Done.
+    return results;
   }
 }
 

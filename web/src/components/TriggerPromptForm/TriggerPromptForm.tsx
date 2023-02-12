@@ -1,8 +1,8 @@
-import { Container } from '@chakra-ui/react'
-import { Form, NumberField } from '@redwoodjs/forms'
-import { useMutation } from '@redwoodjs/web'
+import { Container, Spinner } from '@chakra-ui/react';
+import { Form, NumberField } from '@redwoodjs/forms';
+import { useMutation } from '@redwoodjs/web';
 
-import { LabeledNumberInput, Button } from '@surfacedata/sd-components'
+import { LabeledNumberInput, Button } from '@surfacedata/sd-components';
 
 const GENERATE = gql`
   mutation GenerateMutation($input: GenerateRequest!) {
@@ -12,10 +12,10 @@ const GENERATE = gql`
       }
     }
   }
-`
+`;
 
 const TriggerPromptForm = () => {
-  const [generate, { data: generateResults, loading }] = useMutation(GENERATE)
+  const [generate, { data: generateResults, loading }] = useMutation(GENERATE);
   const onSubmit = (data) => {
     generate({
       variables: {
@@ -23,9 +23,9 @@ const TriggerPromptForm = () => {
           fields: JSON.stringify(data),
         },
       },
-    })
-  }
-  console.log(generateResults)
+    });
+  };
+  console.log(generateResults);
   return (
     <Container>
       <Form onSubmit={onSubmit}>
@@ -37,13 +37,14 @@ const TriggerPromptForm = () => {
         <Button type="submit">Generate</Button>
       </Form>
       <div>
+        {loading && <Spinner />}
         {generateResults &&
           generateResults.generate.results.map(({ output }, i) => (
             <div key={i}>{output}</div>
           ))}
       </div>
     </Container>
-  )
-}
+  );
+};
 
-export default TriggerPromptForm
+export default TriggerPromptForm;

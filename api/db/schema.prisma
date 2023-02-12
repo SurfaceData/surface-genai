@@ -19,4 +19,19 @@ model Prompt {
   // The created timestamp.  Used to order prompts with the same label and
   // variant values as different versions.
   createdAt DateTime @default(now())
+
+  interaction InteractionLog[]
+}
+
+model InteractionLog {
+  id        Int @id @default(autoincrement())
+
+  prompt    Prompt @relation(fields: [promptId], references: [id])
+  promptId  Int
+
+  query     String
+  result    Json[]
+  model     String
+
+  createdAt DateTime @default(now())
 }
