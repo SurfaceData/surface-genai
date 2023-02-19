@@ -29,6 +29,7 @@ model InteractionLog {
   prompt    Prompt @relation(fields: [promptId], references: [id])
   promptId  Int
 
+  externalId String
   query     String
   result    Json[]
   model     String

@@ -6,6 +6,8 @@
     "@redwoodjs/api": "4.1.2",
     "@redwoodjs/graphql-server": "4.1.2",
     "liquidjs": "^10.4.0",
-    "node-fetch": "^3.3.0"
+    "md5": "^2.3.0",
+    "node-fetch": "^3.3.0",
+    "uuid": "^9.0.0"
   }
 }

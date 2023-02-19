@@ -1,5 +1,9 @@
 # README
 
+TODO
+1. Re-write this README
+1. Implement [ab-testing](https://github.com/xavimb/ab-testing/blob/master/lib/ab-testing.js) based experiment manager.  Use [md5 sharding](https://www.thedigitalcatonline.com/blog/2022/08/23/data-partitioning-and-consistent-hashing/).  Maybe use [crypto-js](https://www.npmjs.com/package/crypto-js).
+
 Welcome to [RedwoodJS](https://redwoodjs.com)!
 
 > **Prerequisites**

@@ -1,8 +1,9 @@
-import { Liquid } from 'liquidjs';
-
 import type { Adapter } from 'src/lib/genai_log/adapter';
 import type { ExperimentManager } from 'src/lib/genai_log/experiment_manager';
 import type { GenerateResult, Provider } from 'src/lib/genai_log/provider';
+
+import { Liquid } from 'liquidjs';
+import { v4 as uuidv4 } from 'uuid';
 
 export interface GenaiLogConfig {
   adapter: Adapter;
@@ -52,10 +53,11 @@ class GenaiLog {
    *
    * This selects a provider at random.
    */
-  async generate(label: string, fields): GenaiResult {
+  async generate(label: string, fields, externalId?: string): GenaiResult {
+    const id = externalId || uuidv4();
     // Select the prompt to use.
     const prompt = await this.experimentManager.selectPrompt(
-      '',
+      id,
       this.adapter,
       label
     );
@@ -66,7 +68,7 @@ class GenaiLog {
 
     // Figure out which provider we will use.
     const provider = this.experimentManager.selectProvider(
-      '',
+      id,
       this.providers,
       this.providerNames
     );
@@ -79,7 +81,8 @@ class GenaiLog {
       prompt.id,
       renderedPrompt,
       results,
-      provider.name
+      provider.name,
+      id
     );
 
     // Done.

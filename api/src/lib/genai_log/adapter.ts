@@ -12,10 +12,19 @@ export interface Adapter {
    */
   getPromptsByLabel: (label: string) => Promise<Prompt[]>;
 
+  /**
+   * Return a single prompt that matches {@code label} and {@code variant}
+   */
+  getPromptsByLabelAndVariant: (
+    label: string,
+    variant: string
+  ) => Promise<Prompt>;
+
   saveInteraction: (
     promptId: number,
     query: string,
     results: GenerateResult[],
-    model: string
+    model: string,
+    externalId: string
   ) => Promise<number>;
 }
