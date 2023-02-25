@@ -1,3 +1,16 @@
 {
-  "workspaces": ["apps/*", "packages/*"]
+  "name": "surface-genai",
+  "version": "0.0.0",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "devDependencies": {
+    "prettier": "latest",
+    "turbo": "latest"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "packageManager": "yarn@3.4.1"
 }

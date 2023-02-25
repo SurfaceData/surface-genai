@@ -6,6 +6,12 @@
       "web"
     ]
   },
+  "scripts": {
+    "dev": "rw dev",
+    "build": "rw build",
+    "start": "rw start",
+    "lint": "rw lint"
+  },
   "devDependencies": {
     "@redwoodjs/core": "4.1.2"
   },
