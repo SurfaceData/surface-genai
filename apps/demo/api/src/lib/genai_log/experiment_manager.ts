@@ -1,5 +1,6 @@
+import { GenerateProvider } from '@surface-data/genai';
+
 import type { Adapter, Prompt } from 'src/lib/genai_log/Adapter';
-import type { Provider } from 'src/lib/genai_log/provider';
 
 export interface ExperimentManager {
   name: string;
@@ -12,7 +13,7 @@ export interface ExperimentManager {
 
   selectProvider: (
     externalId: string,
-    providerMap: Map<string, Provider>,
+    providerMap: Map<string, GenerateProvider>,
     providerOrder: string[]
-  ) => Promise<Provider>;
+  ) => Promise<GenerateProvider>;
 }

@@ -7382,7 +7382,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@surface-data/genai@workspace:packages/genai":
+"@surface-data/genai@*, @surface-data/genai@workspace:packages/genai":
   version: 0.0.0-use.local
   resolution: "@surface-data/genai@workspace:packages/genai"
   dependencies:
@@ -9415,6 +9415,7 @@ __metadata:
   dependencies:
     "@redwoodjs/api": 4.1.2
     "@redwoodjs/graphql-server": 4.1.2
+    "@surface-data/genai": "*"
     liquidjs: ^10.4.0
     md5: ^2.3.0
     node-fetch: ^3.3.0

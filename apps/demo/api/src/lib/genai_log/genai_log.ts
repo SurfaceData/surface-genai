@@ -1,6 +1,8 @@
 import type { Adapter } from 'src/lib/genai_log/adapter';
 import type { ExperimentManager } from 'src/lib/genai_log/experiment_manager';
-import type { GenerateResult, Provider } from 'src/lib/genai_log/provider';
+
+import { GenerateProvider } from '@surface-data/genai';
+import type { GenerateResult } from '@surface-data/genai';
 
 import { Liquid } from 'liquidjs';
 import { v4 as uuidv4 } from 'uuid';
@@ -11,9 +13,9 @@ export interface GenaiLogConfig {
   experimentManager: ExperimentManager;
 
   /**
-   * The list of LLM Generator {@code Provider}s.
+   * The list of LLM Generator {@code GenerateProvider}s.
    */
-  providers: Provider[];
+  providers: GenerateProvider[];
 }
 
 export interface GenaiResult {
@@ -31,7 +33,7 @@ class GenaiLog {
   /**
    * A map from provider names to their implementations.
    */
-  private readonly providers: Map<string, provider>;
+  private readonly providers: Map<string, GenerateProvider>;
   /**
    * The original ordering of provider names.
    */
@@ -74,7 +76,7 @@ class GenaiLog {
     );
 
     // Generate.
-    const results = await provider.generate(provider, renderedPrompt);
+    const results = await provider.generate({ text: renderedPrompt });
 
     // Log everything.
     const requestId = await this.adapter.saveInteraction(

@@ -1,6 +1,7 @@
+import { GenerateProvider } from '@surface-data/genai';
+
 import type { Adapter } from 'src/lib/genai_log/adapter';
 import type { ExperimentManager } from 'src/lib/genai_log/experiment_manager';
-import type { Provider } from 'src/lib/genai_log/provider';
 
 import md5 from 'md5';
 
@@ -87,7 +88,7 @@ export default function MultivariateExperimentManager(
 
     selectProvider: (
       externalId: string,
-      providerMap: Map<string, Provider>,
+      providerMap: Map<string, GenerateProvider>,
       providerOrder: string[]
     ) => {
       if (!providerExperiment) {

@@ -1,10 +1,14 @@
 import { GenaiLog } from 'src/lib/genai_log/genai_log';
-import Fake from 'src/lib/genai_log/fake_provider';
 import GenaiLLM from 'src/lib/genai_log/genai_llm_provider';
 import OpenAI from 'src/lib/genai_log/openai_provider';
 import MultivariateExperimentManager from 'src/lib/genai_log/multivariate_experiment_manager';
 import RandomExperimentManager from 'src/lib/genai_log/random_experiment_manager';
 import { PrismaAdapter } from 'src/lib/genai_log/prisma_adapter';
+
+import { GenerateProvider } from '@surface-data/genai';
+import type { FakeProviderConfig } from '@surface-data/genai';
+import { FakeProvider } from '@surface-data/genai';
+import { OpenAIProvider } from '@surface-data/genai';
 
 import { db } from 'src/lib/db';
 
@@ -31,6 +35,7 @@ const genai = new GenaiLog({
           },
         ],
       },
+      /*
       {
         name: 'switch-llm-provider',
         providerCriteria: {
@@ -49,21 +54,21 @@ const genai = new GenaiLog({
             weight: 0.9,
           },
         ],
-      },
+      },*/
     ],
   }),
   providers: [
-    Fake({ prefix: 'fake1' }),
-    Fake({ prefix: 'fake2' }),
-    /*
-    GenaiLLM({ url: process.env.GENAI_URL, api_key: '' }),
-    OpenAI({
+    new OpenAIProvider({
       name: 'openai-davinci-003',
       url: process.env.OPENAI_URL,
       api_key: process.env.OPENAI_API_KEY,
       model: 'text-davinci-003',
     }),
-    OpenAI({
+    new FakeProvider({ name: 'fake-fake1', prefix: '1' }),
+    new FakeProvider({ name: 'fake-fake2', prefix: '2' }),
+    /*
+    GenaiLLM({ url: process.env.GENAI_URL, api_key: '' }),
+        OpenAI({
       name: 'openai-ada-001',
       url: process.env.OPENAI_URL,
       api_key: process.env.OPENAI_API_KEY,

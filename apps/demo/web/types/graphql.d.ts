@@ -25,7 +25,7 @@ export type GenerateRequest = {
 
 export type GenerateResult = {
   __typename?: 'GenerateResult';
-  completion: Scalars['String'];
+  text: Scalars['String'];
 };
 
 export type GenerateResults = {
@@ -71,4 +71,4 @@ export type GenerateMutationVariables = Exact<{
 }>;
 
 
-export type GenerateMutation = { __typename?: 'Mutation', generate: { __typename?: 'GenerateResults', results?: Array<{ __typename?: 'GenerateResult', completion: string } | null> | null } };
+export type GenerateMutation = { __typename?: 'Mutation', generate: { __typename?: 'GenerateResults', results?: Array<{ __typename?: 'GenerateResult', text: string } | null> | null } };

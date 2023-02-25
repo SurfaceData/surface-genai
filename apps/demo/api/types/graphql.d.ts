@@ -43,7 +43,7 @@ export type GenerateRequest = {
 
 export type GenerateResult = {
   __typename?: 'GenerateResult';
-  completion: Scalars['String'];
+  text: Scalars['String'];
 };
 
 export type GenerateResults = {
@@ -203,12 +203,12 @@ export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversT
 }
 
 export type GenerateResultResolvers<ContextType = RedwoodGraphQLContext, ParentType extends ResolversParentTypes['GenerateResult'] = ResolversParentTypes['GenerateResult']> = {
-  completion: OptArgsResolverFn<ResolversTypes['String'], ParentType, ContextType>;
+  text: OptArgsResolverFn<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type GenerateResultRelationResolvers<ContextType = RedwoodGraphQLContext, ParentType extends ResolversParentTypes['GenerateResult'] = ResolversParentTypes['GenerateResult']> = {
-  completion?: RequiredResolverFn<ResolversTypes['String'], ParentType, ContextType>;
+  text?: RequiredResolverFn<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

@@ -8,10 +8,25 @@ interface GenerateResult {
   text: string;
 }
 
-interface GenerateProvider {
-  readonly name: string;
-
-  generate(request: GenerateRequest): Promise<GenerateResult[]>;
+class GenerateProviderConfig {
+  name: string;
+  url?: string;
+  api_key?: string;
 }
 
-export type { GenerateProvider, GenerateRequest, GenerateResult };
+abstract class GenerateProvider {
+  readonly name: string;
+  protected readonly url: string;
+  protected readonly api_key: string;
+
+  constructor(config: GenerateProviderConfig) {
+    this.name = config.name;
+    this.url = config.url || "";
+    this.api_key = config.api_key || "";
+  }
+
+  abstract generate(request: GenerateRequest): Promise<GenerateResult[]>;
+}
+
+export { GenerateProvider };
+export type { GenerateProviderConfig, GenerateRequest, GenerateResult };

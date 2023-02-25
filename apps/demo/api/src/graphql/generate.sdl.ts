@@ -9,7 +9,7 @@ export const schema = gql`
   }
 
   type GenerateResult {
-    completion: String!
+    text: String!
   }
 
   type Mutation {
