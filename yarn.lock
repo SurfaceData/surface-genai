@@ -5393,6 +5393,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@prisma/engines@npm:4.10.1":
+  version: 4.10.1
+  resolution: "@prisma/engines@npm:4.10.1"
+  checksum: 3a859e6c65f7c18f71e3072e74b0cdb5631fb868ab0f5ed68216aaa5f2444b0250585266232d069848ee6a319e12da2943372cab2fb4f5486ebb8f85fc9bb0bf
+  languageName: node
+  linkType: hard
+
 "@prisma/engines@npm:4.9.0":
   version: 4.9.0
   resolution: "@prisma/engines@npm:4.9.0"
@@ -7391,8 +7398,12 @@ __metadata:
     "@babel/preset-typescript": ^7.18.6
     "@types/node": ^18.11.18
     "@types/uuid": ^9.0.0
+    liquidjs: ^10.6.0
+    md5: ^2.3.0
+    prisma: ^4.10.1
     tsup: ^6.5.0
     typescript: ^4.5.2
+    uuid: ^9.0.0
   languageName: unknown
   linkType: soft
 
@@ -18393,7 +18404,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"liquidjs@npm:^10.4.0":
+"liquidjs@npm:^10.4.0, liquidjs@npm:^10.6.0":
   version: 10.6.0
   resolution: "liquidjs@npm:10.6.0"
   dependencies:
@@ -21542,6 +21553,18 @@ __metadata:
     prisma: build/index.js
     prisma2: build/index.js
   checksum: c65de63bf2e6cb05fd65cc9a67f7a196868765c58a0a4928148b2edc4e798904103c02f44aaa01d403898a5714b2098d13b5b641e4c57c138ae0931f45a36b37
+  languageName: node
+  linkType: hard
+
+"prisma@npm:^4.10.1":
+  version: 4.10.1
+  resolution: "prisma@npm:4.10.1"
+  dependencies:
+    "@prisma/engines": 4.10.1
+  bin:
+    prisma: build/index.js
+    prisma2: build/index.js
+  checksum: 9bb4812d91dd3e54fe96897f28ce1d55a65f6a2e1802fd1f7f03f91165c999145b33bee3ff92aebebb8ec2b29b0b1704b70407928620db56a8972e8595f195f7
   languageName: node
   linkType: hard
 

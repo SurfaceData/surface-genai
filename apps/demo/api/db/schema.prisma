@@ -9,7 +9,7 @@ generator client {
 }
 
 model Prompt {
-  id        Int     @id @default(autoincrement())
+  id        String @id @default(uuid())
   // A human readable label that can be used to group Prompts.
   label     String
   // A sub-label for different variations of the same prompt.
@@ -24,10 +24,10 @@ model Prompt {
 }
 
 model InteractionLog {
-  id        Int @id @default(autoincrement())
+  id        String @id @default(uuid())
 
   prompt    Prompt @relation(fields: [promptId], references: [id])
-  promptId  Int
+  promptId  String
 
   externalId String
   query     String

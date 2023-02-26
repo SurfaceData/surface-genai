@@ -1,32 +1,34 @@
-import type { Adapter } from 'src/lib/genai_log/adapter';
-import type { ExperimentManager } from 'src/lib/genai_log/experiment_manager';
+import { Liquid } from "liquidjs";
+import { v4 as uuidv4 } from "uuid";
 
-import { GenerateProvider } from '@surface-data/genai';
-import type { GenerateResult } from '@surface-data/genai';
+import type { InteractionLogger } from "src/interaction_loggers/interaction_logger";
+import type { ExperimentManager } from "src/experiment_managers/experiment_manager";
+import type { PromptStore } from "src/prompt_stores/prompt_store";
+import type { GenerateResult } from "src/providers/provider";
 
-import { Liquid } from 'liquidjs';
-import { v4 as uuidv4 } from 'uuid';
+import { GenerateProvider } from "src/providers/provider";
 
-export interface GenaiLogConfig {
-  adapter: Adapter;
+interface SurfaceGenaiConfig {
+  store: PromptStore;
 
   experimentManager: ExperimentManager;
 
-  /**
-   * The list of LLM Generator {@code GenerateProvider}s.
-   */
   providers: GenerateProvider[];
+
+  interactionLogger?: InteractionLogger;
 }
 
-export interface GenaiResult {
+interface SurfaceGenaiResult {
   results: GenerateResult[];
-  requestId: number;
+  requestId: string;
 }
 
-class GenaiLog {
-  private readonly adapter: Adapter;
+class SurfaceGenai {
+  private readonly store: PromptStore;
 
   private readonly experimentManager: ExperimentManager;
+
+  private interactionLogger?: InteractionLogger;
 
   private engine = new Liquid();
 
@@ -39,14 +41,15 @@ class GenaiLog {
    */
   private readonly providerNames: string[];
 
-  constructor(config: GenaiLogConfig) {
-    this.adapter = config.adapter;
+  constructor(config: SurfaceGenaiConfig) {
+    this.store = config.store;
     this.experimentManager = config.experimentManager;
     this.providers = config.providers.reduce((result, provider) => {
       result.set(provider.name, provider);
       return result;
-    }, new Map<string, provider>());
+    }, new Map<string, GenerateProvider>());
     this.providerNames = config.providers.map(({ name }) => name);
+    this.interactionLogger = config.interactionLogger;
   }
 
   /**
@@ -55,12 +58,16 @@ class GenaiLog {
    *
    * This selects a provider at random.
    */
-  async generate(label: string, fields, externalId?: string): GenaiResult {
+  async generate(
+    label: string,
+    fields,
+    externalId?: string
+  ): Promise<SurfaceGenaiResult> {
     const id = externalId || uuidv4();
     // Select the prompt to use.
     const prompt = await this.experimentManager.selectPrompt(
       id,
-      this.adapter,
+      this.store,
       label
     );
 
@@ -69,7 +76,7 @@ class GenaiLog {
     const renderedPrompt = await this.engine.render(tpl, fields);
 
     // Figure out which provider we will use.
-    const provider = this.experimentManager.selectProvider(
+    const provider = await this.experimentManager.selectProvider(
       id,
       this.providers,
       this.providerNames
@@ -78,14 +85,15 @@ class GenaiLog {
     // Generate.
     const results = await provider.generate({ text: renderedPrompt });
 
-    // Log everything.
-    const requestId = await this.adapter.saveInteraction(
-      prompt.id,
-      renderedPrompt,
-      results,
-      provider.name,
-      id
-    );
+    const requestId = this.interactionLogger
+      ? await this.interactionLogger.saveInteraction(
+          prompt.id,
+          renderedPrompt,
+          results,
+          provider.name,
+          id
+        )
+      : uuidv4();
 
     // Done.
     return {
@@ -95,4 +103,5 @@ class GenaiLog {
   }
 }
 
-export { GenaiLog };
+export type { SurfaceGenaiConfig, SurfaceGenaiResult };
+export { SurfaceGenai };
