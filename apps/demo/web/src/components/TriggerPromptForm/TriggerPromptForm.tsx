@@ -1,8 +1,8 @@
 import { Container, Spinner } from '@chakra-ui/react';
-import { Form, NumberField } from '@redwoodjs/forms';
+import { Form, TextField } from '@redwoodjs/forms';
 import { useMutation } from '@redwoodjs/web';
 
-import { LabeledNumberInput, Button } from '@surfacedata/sd-components';
+import { LabeledInput, Button } from '@surfacedata/sd-components';
 
 const GENERATE = gql`
   mutation GenerateMutation($input: GenerateRequest!) {
@@ -20,6 +20,7 @@ const TriggerPromptForm = () => {
     generate({
       variables: {
         input: {
+          label: 'raven_full',
           fields: JSON.stringify(data),
         },
       },
@@ -28,11 +29,8 @@ const TriggerPromptForm = () => {
   return (
     <Container>
       <Form onSubmit={onSubmit}>
-        <LabeledNumberInput
-          name="number_of_cats"
-          label="Number Of Cats"
-          as={NumberField}
-        />
+        <LabeledInput name="instruction" label="Instruction" as={TextField} />
+        <LabeledInput name="input" label="Input" as={TextField} />
         <Button type="submit">Generate</Button>
       </Form>
       <div>

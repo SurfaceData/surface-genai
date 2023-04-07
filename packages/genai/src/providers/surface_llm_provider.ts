@@ -11,17 +11,16 @@ class SurfaceLLMProvider extends GenerateProvider {
   }
 
   async generate(request: GenerateRequest) {
-    const generationResults = await fetch(`${this.url}/generate`, {
+    const response = await fetch(`${this.url}/generate`, {
       method: "POST",
       body: JSON.stringify({
-        prompt,
-        n: 2,
+        prompt: request.text,
       }),
       headers: {
         "Content-Type": "application/json",
       },
     }).then((res) => res.json());
-    return generationResults.map(({ completion }) => ({
+    return response.map(({ completion }) => ({
       text: completion,
     }));
   }

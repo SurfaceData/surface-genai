@@ -1,6 +1,7 @@
 export const schema = gql`
   input GenerateRequest {
     fields: String!
+    label: String!
   }
 
   type GenerateResults {

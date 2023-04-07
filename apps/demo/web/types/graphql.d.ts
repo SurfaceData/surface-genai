@@ -21,6 +21,7 @@ export type Scalars = {
 
 export type GenerateRequest = {
   fields: Scalars['String'];
+  label: Scalars['String'];
 };
 
 export type GenerateResult = {

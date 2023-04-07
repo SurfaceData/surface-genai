@@ -1,11 +1,9 @@
 import {
   SurfaceGenai,
-  FakeProvider,
-  GenerateProvider,
   MultivariateExperimentManager,
   PrismaInteractionLogger,
   PrismaPromptStore,
-  RandomExperimentManager,
+  ProdExperimentManager,
   SurfaceLLMProvider,
 } from '@surface-data/genai';
 
@@ -15,14 +13,14 @@ const genai = new SurfaceGenai({
   store: new PrismaPromptStore(db),
   interactionLogger: new PrismaInteractionLogger(db),
   providers: [
-    new FakeProvider({ name: 'fake-fake1', prefix: '1' }),
-    new FakeProvider({ name: 'fake-fake2', prefix: '2' }),
     new SurfaceLLMProvider({
       name: 'surface-llm',
       url: process.env.GENAI_URL,
       api_key: '',
     }),
   ],
+  experimentManager: new ProdExperimentManager(),
+  /*
   experimentManager: new MultivariateExperimentManager({
     experiments: [
       {
@@ -65,6 +63,7 @@ const genai = new SurfaceGenai({
       },
     ],
   }),
+  */
 });
 
 export { genai };
