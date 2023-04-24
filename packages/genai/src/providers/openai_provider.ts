@@ -1,3 +1,4 @@
+import type { Conversation } from "src/chat_stores/chat_store";
 import type {
   GenerateProviderConfig,
   GenerateRequest,
@@ -42,6 +43,11 @@ class OpenAIProvider extends GenerateProvider {
     }).then((res) => res.json());
 
     return result.choices.map(({ text }) => ({ text }));
+  }
+
+  async chat(conversation: Conversation) {
+    throw new Error("Unsupported");
+    return { text: "unsupported" };
   }
 }
 

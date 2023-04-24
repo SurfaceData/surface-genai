@@ -6,7 +6,6 @@ import { GenerateProvider } from "src/providers/provider";
 class ProdExperimentManager implements ExperimentManager {
   async selectPrompt(externalId: string, store: PromptStore, label: string) {
     const prompts = await store.getPromptsByLabel(label);
-    console.log(prompts);
     return prompts[0];
   }
 

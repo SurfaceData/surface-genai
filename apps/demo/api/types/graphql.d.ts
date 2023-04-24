@@ -37,6 +37,18 @@ export type Scalars = {
   Time: Date | string;
 };
 
+export type ChatConversation = {
+  __typename?: 'ChatConversation';
+  id: Scalars['String'];
+  messages?: Maybe<Array<Maybe<ChatMessage>>>;
+};
+
+export type ChatMessage = {
+  __typename?: 'ChatMessage';
+  content: Scalars['String'];
+  source: Scalars['String'];
+};
+
 export type GenerateRequest = {
   fields: Scalars['String'];
   label: Scalars['String'];
@@ -56,11 +68,17 @@ export type GenerateResults = {
 export type Mutation = {
   __typename?: 'Mutation';
   generate: GenerateResults;
+  startChat: ChatConversation;
 };
 
 
 export type MutationgenerateArgs = {
   input: GenerateRequest;
+};
+
+
+export type MutationstartChatArgs = {
+  input: StartChatRequest;
 };
 
 /** About the Redwood queries. */
@@ -83,6 +101,11 @@ export type Redwood = {
   prismaVersion?: Maybe<Scalars['String']>;
   /** The version of Redwood. */
   version?: Maybe<Scalars['String']>;
+};
+
+export type StartChatRequest = {
+  fields: Scalars['String'];
+  label: Scalars['String'];
 };
 
 type MaybeOrArrayOfMaybe<T> = T | Maybe<T> | Maybe<T>[];
@@ -147,6 +170,8 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 export type ResolversTypes = {
   BigInt: ResolverTypeWrapper<Scalars['BigInt']>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
+  ChatConversation: ResolverTypeWrapper<ChatConversation>;
+  ChatMessage: ResolverTypeWrapper<ChatMessage>;
   Date: ResolverTypeWrapper<Scalars['Date']>;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']>;
   GenerateRequest: GenerateRequest;
@@ -158,6 +183,7 @@ export type ResolversTypes = {
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   Redwood: ResolverTypeWrapper<Redwood>;
+  StartChatRequest: StartChatRequest;
   String: ResolverTypeWrapper<Scalars['String']>;
   Time: ResolverTypeWrapper<Scalars['Time']>;
 };
@@ -166,6 +192,8 @@ export type ResolversTypes = {
 export type ResolversParentTypes = {
   BigInt: Scalars['BigInt'];
   Boolean: Scalars['Boolean'];
+  ChatConversation: ChatConversation;
+  ChatMessage: ChatMessage;
   Date: Scalars['Date'];
   DateTime: Scalars['DateTime'];
   GenerateRequest: GenerateRequest;
@@ -177,6 +205,7 @@ export type ResolversParentTypes = {
   Mutation: {};
   Query: {};
   Redwood: Redwood;
+  StartChatRequest: StartChatRequest;
   String: Scalars['String'];
   Time: Scalars['Time'];
 };
@@ -194,6 +223,30 @@ export type skipAuthDirectiveResolver<Result, Parent, ContextType = RedwoodGraph
 export interface BigIntScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['BigInt'], any> {
   name: 'BigInt';
 }
+
+export type ChatConversationResolvers<ContextType = RedwoodGraphQLContext, ParentType extends ResolversParentTypes['ChatConversation'] = ResolversParentTypes['ChatConversation']> = {
+  id: OptArgsResolverFn<ResolversTypes['String'], ParentType, ContextType>;
+  messages: OptArgsResolverFn<Maybe<Array<Maybe<ResolversTypes['ChatMessage']>>>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ChatConversationRelationResolvers<ContextType = RedwoodGraphQLContext, ParentType extends ResolversParentTypes['ChatConversation'] = ResolversParentTypes['ChatConversation']> = {
+  id?: RequiredResolverFn<ResolversTypes['String'], ParentType, ContextType>;
+  messages?: RequiredResolverFn<Maybe<Array<Maybe<ResolversTypes['ChatMessage']>>>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ChatMessageResolvers<ContextType = RedwoodGraphQLContext, ParentType extends ResolversParentTypes['ChatMessage'] = ResolversParentTypes['ChatMessage']> = {
+  content: OptArgsResolverFn<ResolversTypes['String'], ParentType, ContextType>;
+  source: OptArgsResolverFn<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ChatMessageRelationResolvers<ContextType = RedwoodGraphQLContext, ParentType extends ResolversParentTypes['ChatMessage'] = ResolversParentTypes['ChatMessage']> = {
+  content?: RequiredResolverFn<ResolversTypes['String'], ParentType, ContextType>;
+  source?: RequiredResolverFn<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
 
 export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Date'], any> {
   name: 'Date';
@@ -235,10 +288,12 @@ export interface JSONObjectScalarConfig extends GraphQLScalarTypeConfig<Resolver
 
 export type MutationResolvers<ContextType = RedwoodGraphQLContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   generate: Resolver<ResolversTypes['GenerateResults'], ParentType, ContextType, RequireFields<MutationgenerateArgs, 'input'>>;
+  startChat: Resolver<ResolversTypes['ChatConversation'], ParentType, ContextType, RequireFields<MutationstartChatArgs, 'input'>>;
 };
 
 export type MutationRelationResolvers<ContextType = RedwoodGraphQLContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   generate?: RequiredResolverFn<ResolversTypes['GenerateResults'], ParentType, ContextType, RequireFields<MutationgenerateArgs, 'input'>>;
+  startChat?: RequiredResolverFn<ResolversTypes['ChatConversation'], ParentType, ContextType, RequireFields<MutationstartChatArgs, 'input'>>;
 };
 
 export type QueryResolvers<ContextType = RedwoodGraphQLContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
@@ -269,6 +324,8 @@ export interface TimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
 
 export type Resolvers<ContextType = RedwoodGraphQLContext> = {
   BigInt: GraphQLScalarType;
+  ChatConversation: ChatConversationResolvers<ContextType>;
+  ChatMessage: ChatMessageResolvers<ContextType>;
   Date: GraphQLScalarType;
   DateTime: GraphQLScalarType;
   GenerateResult: GenerateResultResolvers<ContextType>;

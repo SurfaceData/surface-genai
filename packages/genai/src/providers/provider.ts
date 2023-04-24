@@ -1,3 +1,5 @@
+import type { Conversation } from "src/chat_stores/chat_store";
+
 interface GenerateRequest {
   text: string;
   max_tokens?: number;
@@ -26,6 +28,7 @@ abstract class GenerateProvider {
   }
 
   abstract generate(request: GenerateRequest): Promise<GenerateResult[]>;
+  abstract chat(conversation: Conversation): Promise<GenerateResult>;
 }
 
 export { GenerateProvider };

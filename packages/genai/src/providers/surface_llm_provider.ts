@@ -1,3 +1,4 @@
+import type { Conversation } from "src/chat_stores/chat_store";
 import type {
   GenerateProviderConfig,
   GenerateRequest,
@@ -23,6 +24,22 @@ class SurfaceLLMProvider extends GenerateProvider {
     return response.map(({ completion }) => ({
       text: completion,
     }));
+  }
+
+  async chat(conversation: Conversation) {
+    const response = await fetch(`${this.url}/chat`, {
+      method: "POST",
+      body: JSON.stringify({
+        conversation: {
+          system_prompt: conversation.prompt.systemMessage,
+          messages: conversation.messages,
+        },
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((res) => res.json());
+    return { text: response.results[0].content };
   }
 }
 

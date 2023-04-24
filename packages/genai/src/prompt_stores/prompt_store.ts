@@ -3,6 +3,7 @@ interface Prompt {
   template: string;
   label: string;
   variant: string;
+  systemMessage?: string;
 }
 
 interface PromptStore {

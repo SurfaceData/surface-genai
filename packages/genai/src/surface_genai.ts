@@ -1,6 +1,7 @@
 import { Liquid } from "liquidjs";
 import { v4 as uuidv4 } from "uuid";
 
+import type { ChatStore, Conversation } from "src/chat_stores/chat_store";
 import type { InteractionLogger } from "src/interaction_loggers/interaction_logger";
 import type { ExperimentManager } from "src/experiment_managers/experiment_manager";
 import type { PromptStore } from "src/prompt_stores/prompt_store";
@@ -16,6 +17,8 @@ interface SurfaceGenaiConfig {
   providers: GenerateProvider[];
 
   interactionLogger?: InteractionLogger;
+
+  chatStore?: ChatStore;
 }
 
 interface SurfaceGenaiResult {
@@ -30,6 +33,8 @@ class SurfaceGenai {
 
   private interactionLogger?: InteractionLogger;
 
+  private chatStore?: ChatStore;
+
   private engine = new Liquid();
 
   /**
@@ -43,6 +48,7 @@ class SurfaceGenai {
 
   constructor(config: SurfaceGenaiConfig) {
     this.store = config.store;
+    this.chatStore = config.chatStore;
     this.experimentManager = config.experimentManager;
     this.providers = config.providers.reduce((result, provider) => {
       result.set(provider.name, provider);
@@ -100,6 +106,45 @@ class SurfaceGenai {
       requestId,
       results,
     };
+  }
+
+  async startChat(label: string, fields): Promise<Conversation> {
+    const id = uuidv4();
+    // Select the prompt to use.
+    const prompt = await this.experimentManager.selectPrompt(
+      id,
+      this.store,
+      label
+    );
+
+    const conversation = await this.chatStore.createChat(prompt);
+
+    // Complete the prompt with the fields.
+    const tpl = this.engine.parse(prompt.template);
+    const renderedPrompt = await this.engine.render(tpl, fields);
+
+    conversation.messages.push({
+      source: "user",
+      content: renderedPrompt,
+    });
+
+    // Figure out which provider we will use.
+    const provider = await this.experimentManager.selectProvider(
+      id,
+      this.providers,
+      this.providerNames
+    );
+
+    // Generate.
+    const result = await provider.chat(conversation);
+
+    conversation.messages.push({
+      source: "assistant",
+      content: result.text,
+    });
+
+    // Done.
+    return conversation;
   }
 }
 

@@ -19,6 +19,18 @@ export type Scalars = {
   Time: string;
 };
 
+export type ChatConversation = {
+  __typename?: 'ChatConversation';
+  id: Scalars['String'];
+  messages?: Maybe<Array<Maybe<ChatMessage>>>;
+};
+
+export type ChatMessage = {
+  __typename?: 'ChatMessage';
+  content: Scalars['String'];
+  source: Scalars['String'];
+};
+
 export type GenerateRequest = {
   fields: Scalars['String'];
   label: Scalars['String'];
@@ -38,11 +50,17 @@ export type GenerateResults = {
 export type Mutation = {
   __typename?: 'Mutation';
   generate: GenerateResults;
+  startChat: ChatConversation;
 };
 
 
 export type MutationgenerateArgs = {
   input: GenerateRequest;
+};
+
+
+export type MutationstartChatArgs = {
+  input: StartChatRequest;
 };
 
 /** About the Redwood queries. */
@@ -66,6 +84,18 @@ export type Redwood = {
   /** The version of Redwood. */
   version?: Maybe<Scalars['String']>;
 };
+
+export type StartChatRequest = {
+  fields: Scalars['String'];
+  label: Scalars['String'];
+};
+
+export type StartChatMutationVariables = Exact<{
+  input: StartChatRequest;
+}>;
+
+
+export type StartChatMutation = { __typename?: 'Mutation', startChat: { __typename?: 'ChatConversation', id: string, messages?: Array<{ __typename?: 'ChatMessage', source: string, content: string } | null> | null } };
 
 export type GenerateMutationVariables = Exact<{
   input: GenerateRequest;

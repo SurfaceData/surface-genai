@@ -1,3 +1,4 @@
+import type { Conversation } from "src/chat_stores/chat_store";
 import type {
   GenerateProviderConfig,
   GenerateRequest,
@@ -23,6 +24,14 @@ class FakeProvider extends GenerateProvider {
         text: `${this.prefix}-${request.text}`,
       },
     ];
+  }
+
+  async chat(conversation: Conversation) {
+    return {
+      text: `${this.prefix}-${
+        conversation.messages[conversation.messages.length - 1].content
+      }`,
+    };
   }
 }
 

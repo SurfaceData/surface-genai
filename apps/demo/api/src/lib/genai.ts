@@ -1,5 +1,6 @@
 import {
   SurfaceGenai,
+  InMemoryChatStore,
   MultivariateExperimentManager,
   PrismaInteractionLogger,
   PrismaPromptStore,
@@ -9,8 +10,11 @@ import {
 
 import { db } from 'src/lib/db';
 
+const chatStore = new InMemoryChatStore();
+
 const genai = new SurfaceGenai({
   store: new PrismaPromptStore(db),
+  chatStore: chatStore,
   interactionLogger: new PrismaInteractionLogger(db),
   providers: [
     new SurfaceLLMProvider({

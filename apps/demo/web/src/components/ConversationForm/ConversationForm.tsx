@@ -4,23 +4,25 @@ import { useMutation } from '@redwoodjs/web';
 
 import { LabeledInput, Button } from '@surfacedata/sd-components';
 
-const GENERATE = gql`
-  mutation GenerateMutation($input: GenerateRequest!) {
-    generate(input: $input) {
-      results {
-        text
+const START_CHAT = gql`
+  mutation StartChatMutation($input: StartChatRequest!) {
+    startChat(input: $input) {
+      id
+      messages {
+        source
+        content
       }
     }
   }
 `;
 
-const TriggerPromptForm = () => {
-  const [generate, { data: generateResults, loading }] = useMutation(GENERATE);
+const ConversationForm = () => {
+  const [startChat, { data: conversation, loading }] = useMutation(START_CHAT);
   const onSubmit = (data) => {
-    generate({
+    startChat({
       variables: {
         input: {
-          label: 'simple',
+          label: 'simple_chat',
           fields: JSON.stringify(data),
         },
       },
@@ -30,17 +32,19 @@ const TriggerPromptForm = () => {
     <Container>
       <Form onSubmit={onSubmit}>
         <LabeledInput name="input_text" label="Input" as={TextField} />
-        <Button type="submit">Generate</Button>
+        <Button type="submit">Chat</Button>
       </Form>
       <div>
         {loading && <Spinner />}
-        {generateResults &&
-          generateResults.generate.results.map(({ text }, i) => (
-            <div key={i}>{text}</div>
+        {conversation &&
+          conversation?.startChat?.messages?.map(({ source, content }, i) => (
+            <div key={i}>
+              {source}: {content}
+            </div>
           ))}
       </div>
     </Container>
   );
 };
 
-export default TriggerPromptForm;
+export default ConversationForm;

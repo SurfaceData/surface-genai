@@ -16,6 +16,8 @@ model Prompt {
   variant   String
   // The prompt template content.
   template  String
+  // A system level message to prime an LLM.
+  systemMessage String?
   // The created timestamp.  Used to order prompts with the same label and
   // variant values as different versions.
   createdAt DateTime @default(now())
