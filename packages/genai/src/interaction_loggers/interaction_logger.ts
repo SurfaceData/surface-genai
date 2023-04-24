@@ -1,3 +1,4 @@
+import type { Conversation } from "src/chat_stores/chat_store";
 import type { GenerateResult } from "src/providers/provider";
 
 interface InteractionLogger {
@@ -8,6 +9,8 @@ interface InteractionLogger {
     model: string,
     externalId: string
   ): Promise<string> | string;
+
+  saveChat(conversation: Conversation, model: string): Promise<string>;
 }
 
 export type { InteractionLogger };

@@ -27,14 +27,17 @@ class SurfaceLLMProvider extends GenerateProvider {
   }
 
   async chat(conversation: Conversation) {
+    const system_prompt =
+      conversation.systemMessage !== "" ? conversation.systemMessage : null;
+    const body = JSON.stringify({
+      conversation: {
+        system_prompt,
+        messages: conversation.messages,
+      },
+    });
     const response = await fetch(`${this.url}/chat`, {
       method: "POST",
-      body: JSON.stringify({
-        conversation: {
-          system_prompt: conversation.prompt.systemMessage,
-          messages: conversation.messages,
-        },
-      }),
+      body,
       headers: {
         "Content-Type": "application/json",
       },

@@ -1,6 +1,6 @@
 import { Prisma } from "@prisma/client"
 import { MergePrismaWithSdlTypes, MakeRelationsOptional } from '@redwoodjs/api'
-import { Prompt as PrismaPrompt, InteractionLog as PrismaInteractionLog } from '@prisma/client'
+import { Prompt as PrismaPrompt, InteractionLog as PrismaInteractionLog, ChatLog as PrismaChatLog } from '@prisma/client'
 import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
 import { RedwoodGraphQLContext } from '@redwoodjs/graphql-server/dist/functions/types';
 export type Maybe<T> = T | null;
@@ -41,12 +41,18 @@ export type ChatConversation = {
   __typename?: 'ChatConversation';
   id: Scalars['String'];
   messages?: Maybe<Array<Maybe<ChatMessage>>>;
+  requestId: Scalars['String'];
 };
 
 export type ChatMessage = {
   __typename?: 'ChatMessage';
   content: Scalars['String'];
   source: Scalars['String'];
+};
+
+export type ChatRequest = {
+  id: Scalars['String'];
+  query: Scalars['String'];
 };
 
 export type GenerateRequest = {
@@ -67,8 +73,14 @@ export type GenerateResults = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  chat: ChatConversation;
   generate: GenerateResults;
   startChat: ChatConversation;
+};
+
+
+export type MutationchatArgs = {
+  input: ChatRequest;
 };
 
 
@@ -172,6 +184,7 @@ export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   ChatConversation: ResolverTypeWrapper<ChatConversation>;
   ChatMessage: ResolverTypeWrapper<ChatMessage>;
+  ChatRequest: ChatRequest;
   Date: ResolverTypeWrapper<Scalars['Date']>;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']>;
   GenerateRequest: GenerateRequest;
@@ -194,6 +207,7 @@ export type ResolversParentTypes = {
   Boolean: Scalars['Boolean'];
   ChatConversation: ChatConversation;
   ChatMessage: ChatMessage;
+  ChatRequest: ChatRequest;
   Date: Scalars['Date'];
   DateTime: Scalars['DateTime'];
   GenerateRequest: GenerateRequest;
@@ -227,12 +241,14 @@ export interface BigIntScalarConfig extends GraphQLScalarTypeConfig<ResolversTyp
 export type ChatConversationResolvers<ContextType = RedwoodGraphQLContext, ParentType extends ResolversParentTypes['ChatConversation'] = ResolversParentTypes['ChatConversation']> = {
   id: OptArgsResolverFn<ResolversTypes['String'], ParentType, ContextType>;
   messages: OptArgsResolverFn<Maybe<Array<Maybe<ResolversTypes['ChatMessage']>>>, ParentType, ContextType>;
+  requestId: OptArgsResolverFn<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type ChatConversationRelationResolvers<ContextType = RedwoodGraphQLContext, ParentType extends ResolversParentTypes['ChatConversation'] = ResolversParentTypes['ChatConversation']> = {
   id?: RequiredResolverFn<ResolversTypes['String'], ParentType, ContextType>;
   messages?: RequiredResolverFn<Maybe<Array<Maybe<ResolversTypes['ChatMessage']>>>, ParentType, ContextType>;
+  requestId?: RequiredResolverFn<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -287,11 +303,13 @@ export interface JSONObjectScalarConfig extends GraphQLScalarTypeConfig<Resolver
 }
 
 export type MutationResolvers<ContextType = RedwoodGraphQLContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  chat: Resolver<ResolversTypes['ChatConversation'], ParentType, ContextType, RequireFields<MutationchatArgs, 'input'>>;
   generate: Resolver<ResolversTypes['GenerateResults'], ParentType, ContextType, RequireFields<MutationgenerateArgs, 'input'>>;
   startChat: Resolver<ResolversTypes['ChatConversation'], ParentType, ContextType, RequireFields<MutationstartChatArgs, 'input'>>;
 };
 
 export type MutationRelationResolvers<ContextType = RedwoodGraphQLContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  chat?: RequiredResolverFn<ResolversTypes['ChatConversation'], ParentType, ContextType, RequireFields<MutationchatArgs, 'input'>>;
   generate?: RequiredResolverFn<ResolversTypes['GenerateResults'], ParentType, ContextType, RequireFields<MutationgenerateArgs, 'input'>>;
   startChat?: RequiredResolverFn<ResolversTypes['ChatConversation'], ParentType, ContextType, RequireFields<MutationstartChatArgs, 'input'>>;
 };

@@ -2,7 +2,9 @@ import type { Prompt } from "src/prompt_stores/prompt_store";
 
 interface Conversation {
   id: string;
+  interactionCount: number;
   prompt: Prompt;
+  systemMessage: string;
   messages: Array<Message>;
 }
 
@@ -12,11 +14,11 @@ interface Message {
 }
 
 interface ChatStore {
-  createChat(prompt: Prompt): Promise<Conversation>;
+  createChat(prompt: Prompt, systemMessage: string): Promise<Conversation>;
 
   getChat(id: string): Promise<Conversation>;
 
-  updateChat(id: string, newMessages: Array<Message>): Promise<Conversation>;
+  updateChat(id: string, conversation: Conversation): Promise<void>;
 }
 
 export type { ChatStore, Message, Conversation };

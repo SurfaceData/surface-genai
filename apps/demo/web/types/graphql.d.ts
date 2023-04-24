@@ -23,12 +23,18 @@ export type ChatConversation = {
   __typename?: 'ChatConversation';
   id: Scalars['String'];
   messages?: Maybe<Array<Maybe<ChatMessage>>>;
+  requestId: Scalars['String'];
 };
 
 export type ChatMessage = {
   __typename?: 'ChatMessage';
   content: Scalars['String'];
   source: Scalars['String'];
+};
+
+export type ChatRequest = {
+  id: Scalars['String'];
+  query: Scalars['String'];
 };
 
 export type GenerateRequest = {
@@ -49,8 +55,14 @@ export type GenerateResults = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  chat: ChatConversation;
   generate: GenerateResults;
   startChat: ChatConversation;
+};
+
+
+export type MutationchatArgs = {
+  input: ChatRequest;
 };
 
 
@@ -90,12 +102,19 @@ export type StartChatRequest = {
   label: Scalars['String'];
 };
 
+export type ChatMutationVariables = Exact<{
+  input: ChatRequest;
+}>;
+
+
+export type ChatMutation = { __typename?: 'Mutation', chat: { __typename?: 'ChatConversation', id: string, requestId: string, messages?: Array<{ __typename?: 'ChatMessage', source: string, content: string } | null> | null } };
+
 export type StartChatMutationVariables = Exact<{
   input: StartChatRequest;
 }>;
 
 
-export type StartChatMutation = { __typename?: 'Mutation', startChat: { __typename?: 'ChatConversation', id: string, messages?: Array<{ __typename?: 'ChatMessage', source: string, content: string } | null> | null } };
+export type StartChatMutation = { __typename?: 'Mutation', startChat: { __typename?: 'ChatConversation', id: string, requestId: string, messages?: Array<{ __typename?: 'ChatMessage', source: string, content: string } | null> | null } };
 
 export type GenerateMutationVariables = Exact<{
   input: GenerateRequest;

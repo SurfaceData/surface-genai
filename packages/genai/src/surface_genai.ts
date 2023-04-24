@@ -26,6 +26,11 @@ interface SurfaceGenaiResult {
   requestId: string;
 }
 
+interface SurfaceGenaiConversationResult {
+  conversation: Conversation;
+  requestId: string;
+}
+
 class SurfaceGenai {
   private readonly store: PromptStore;
 
@@ -108,7 +113,10 @@ class SurfaceGenai {
     };
   }
 
-  async startChat(label: string, fields): Promise<Conversation> {
+  async startChat(
+    label: string,
+    fields
+  ): Promise<SurfaceGenaiConversationResult> {
     const id = uuidv4();
     // Select the prompt to use.
     const prompt = await this.experimentManager.selectPrompt(
@@ -117,18 +125,32 @@ class SurfaceGenai {
       label
     );
 
-    const conversation = await this.chatStore.createChat(prompt);
-
     // Complete the prompt with the fields.
     const tpl = this.engine.parse(prompt.template);
-    const renderedPrompt = await this.engine.render(tpl, fields);
+    const systemMessage = await this.engine.render(tpl, fields);
+    const conversation = await this.chatStore.createChat(prompt, systemMessage);
+    const requestId = this.interactionLogger
+      ? await this.interactionLogger.saveChat(conversation, "")
+      : uuidv4();
+
+    return {
+      requestId,
+      conversation,
+    };
+  }
+
+  async chat(
+    chatId: string,
+    query: string
+  ): Promise<SurfaceGenaiConversationResult> {
+    const conversation = await this.chatStore.getChat(chatId);
 
     conversation.messages.push({
       source: "user",
-      content: renderedPrompt,
+      content: query,
     });
-
     // Figure out which provider we will use.
+    const id = uuidv4();
     const provider = await this.experimentManager.selectProvider(
       id,
       this.providers,
@@ -142,9 +164,18 @@ class SurfaceGenai {
       source: "assistant",
       content: result.text,
     });
+    conversation.interactionCount += 1;
+    await this.chatStore.updateChat(chatId, conversation);
+
+    const requestId = this.interactionLogger
+      ? await this.interactionLogger.saveChat(conversation, provider.name)
+      : uuidv4();
 
     // Done.
-    return conversation;
+    return {
+      requestId,
+      conversation,
+    };
   }
 }
 

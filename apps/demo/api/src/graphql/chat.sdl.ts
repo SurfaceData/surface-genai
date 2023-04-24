@@ -4,6 +4,11 @@ export const schema = gql`
     label: String!
   }
 
+  input ChatRequest {
+    id: String!
+    query: String!
+  }
+
   type ChatMessage {
     source: String!
     content: String!
@@ -11,10 +16,12 @@ export const schema = gql`
 
   type ChatConversation {
     id: String!
+    requestId: String!
     messages: [ChatMessage]
   }
 
   type Mutation {
     startChat(input: StartChatRequest!): ChatConversation! @skipAuth
+    chat(input: ChatRequest!): ChatConversation! @skipAuth
   }
 `;

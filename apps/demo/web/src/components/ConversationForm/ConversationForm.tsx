@@ -4,10 +4,11 @@ import { useMutation } from '@redwoodjs/web';
 
 import { LabeledInput, Button } from '@surfacedata/sd-components';
 
-const START_CHAT = gql`
-  mutation StartChatMutation($input: StartChatRequest!) {
-    startChat(input: $input) {
+const CHAT = gql`
+  mutation ChatMutation($input: ChatRequest!) {
+    chat(input: $input) {
       id
+      requestId
       messages {
         source
         content
@@ -16,14 +17,14 @@ const START_CHAT = gql`
   }
 `;
 
-const ConversationForm = () => {
-  const [startChat, { data: conversation, loading }] = useMutation(START_CHAT);
+const ConversationForm = ({ chatId }) => {
+  const [chat, { data: conversation, loading }] = useMutation(CHAT);
   const onSubmit = (data) => {
-    startChat({
+    chat({
       variables: {
         input: {
-          label: 'simple_chat',
-          fields: JSON.stringify(data),
+          id: chatId,
+          query: data.query,
         },
       },
     });
@@ -31,13 +32,16 @@ const ConversationForm = () => {
   return (
     <Container>
       <Form onSubmit={onSubmit}>
-        <LabeledInput name="input_text" label="Input" as={TextField} />
+        <LabeledInput name="query" label="Input" as={TextField} />
         <Button type="submit">Chat</Button>
       </Form>
       <div>
         {loading && <Spinner />}
+        {conversation && conversation?.chat?.requestId && (
+          <span>{conversation.chat.requestId}</span>
+        )}
         {conversation &&
-          conversation?.startChat?.messages?.map(({ source, content }, i) => (
+          conversation?.chat?.messages?.map(({ source, content }, i) => (
             <div key={i}>
               {source}: {content}
             </div>

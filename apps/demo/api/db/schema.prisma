@@ -23,6 +23,7 @@ model Prompt {
   createdAt DateTime @default(now())
 
   interaction InteractionLog[]
+  chat        ChatLog[]
 }
 
 model InteractionLog {
@@ -34,6 +35,20 @@ model InteractionLog {
   externalId String
   query     String
   result    Json[]
+  model     String
+
+  createdAt DateTime @default(now())
+}
+
+model ChatLog {
+  id            String @id @default(uuid())
+  systemMessage String @default("")
+  messages      Json[]
+  interactionCount Int @default(-1)
+
+  prompt    Prompt @relation(fields: [promptId], references: [id])
+  promptId  String
+
   model     String
 
   createdAt DateTime @default(now())
