@@ -1,15 +1,15 @@
-import { FatalErrorBoundary, RedwoodProvider } from '@redwoodjs/web'
-import { RedwoodApolloProvider } from '@redwoodjs/web/apollo'
+import { FatalErrorBoundary, RedwoodProvider } from '@redwoodjs/web';
+import { RedwoodApolloProvider } from '@redwoodjs/web/apollo';
 
-import { ChakraProvider, ColorModeScript, extendTheme } from '@chakra-ui/react'
-import { SurfaceTheme } from '@surfacedata/sd-components'
+import { ChakraProvider, ColorModeScript, extendTheme } from '@chakra-ui/react';
+import { SurfaceTheme } from '@surfacedata/sd-components';
 
-import FatalErrorPage from 'src/pages/FatalErrorPage'
-import Routes from 'src/Routes'
+import FatalErrorPage from 'src/pages/FatalErrorPage';
+import Routes from 'src/Routes';
 
-import './index.css'
+import './index.css';
 
-const extendedTheme = extendTheme({ ...SurfaceTheme })
+const extendedTheme = extendTheme({ ...SurfaceTheme });
 
 const App = () => (
   <FatalErrorBoundary page={FatalErrorPage}>
@@ -22,6 +22,6 @@ const App = () => (
       </ChakraProvider>
     </RedwoodProvider>
   </FatalErrorBoundary>
-)
+);
 
-export default App
+export default App;

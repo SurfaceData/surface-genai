@@ -1,6 +1,6 @@
 import { Prisma } from "@prisma/client"
 import { MergePrismaWithSdlTypes, MakeRelationsOptional } from '@redwoodjs/api'
-import { Prompt as PrismaPrompt, InteractionLog as PrismaInteractionLog, ChatLog as PrismaChatLog } from '@prisma/client'
+import { Prompt as PrismaPrompt, InteractionLog as PrismaInteractionLog, InteractionEvaluationLog as PrismaInteractionEvaluationLog, ChatLog as PrismaChatLog, ChatEvaluationLog as PrismaChatEvaluationLog } from '@prisma/client'
 import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
 import { RedwoodGraphQLContext } from '@redwoodjs/graphql-server/dist/functions/types';
 export type Maybe<T> = T | null;
@@ -57,6 +57,7 @@ export type ChatRequest = {
 
 export type EvaluateRequest = {
   evalType: Scalars['String'];
+  interactionType: Scalars['String'];
   rating: Scalars['String'];
   requestId: Scalars['String'];
 };

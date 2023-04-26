@@ -1,13 +1,14 @@
 {
-  "name": "surface-genai",
+  "name": "surface-data",
   "version": "0.0.0",
-  "scripts": {
-    "dev": "turbo run dev --no-cache --continue"
-  },
+  "private": true,
   "workspaces": [
     "apps/*",
     "packages/*"
   ],
+  "scripts": {
+    "dev": "turbo run dev --no-cache --continue"
+  },
   "devDependencies": {
     "prettier": "latest",
     "turbo": "latest"

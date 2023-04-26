@@ -8,7 +8,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@chakra-ui/react';
-import ReactMarkdown from 'react-markdown';
+//import ReactMarkdown from 'react-markdown';
 
 import EvaluateMessageForm from 'src/components/EvaluateMessageForm';
 
@@ -41,7 +41,7 @@ const AssistantMessage = ({ id, children }) => {
       >
         <Avatar name="Assistant" />
         <div>
-          <ReactMarkdown>{children}</ReactMarkdown>
+          <div>{children}</div>
         </div>
       </Box>
     </Rateable>

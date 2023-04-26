@@ -37,6 +37,18 @@ export type ChatRequest = {
   query: Scalars['String'];
 };
 
+export type EvaluateRequest = {
+  evalType: Scalars['String'];
+  interactionType: Scalars['String'];
+  rating: Scalars['String'];
+  requestId: Scalars['String'];
+};
+
+export type EvaluateResponse = {
+  __typename?: 'EvaluateResponse';
+  id: Scalars['String'];
+};
+
 export type GenerateRequest = {
   fields: Scalars['String'];
   label: Scalars['String'];
@@ -56,6 +68,7 @@ export type GenerateResults = {
 export type Mutation = {
   __typename?: 'Mutation';
   chat: ChatConversation;
+  evaluate: EvaluateResponse;
   generate: GenerateResults;
   startChat: ChatConversation;
 };
@@ -63,6 +76,11 @@ export type Mutation = {
 
 export type MutationchatArgs = {
   input: ChatRequest;
+};
+
+
+export type MutationevaluateArgs = {
+  input: EvaluateRequest;
 };
 
 
@@ -108,6 +126,13 @@ export type ChatMutationVariables = Exact<{
 
 
 export type ChatMutation = { __typename?: 'Mutation', chat: { __typename?: 'ChatConversation', id: string, requestId: string, messages?: Array<{ __typename?: 'ChatMessage', source: string, content: string } | null> | null } };
+
+export type EvaluateMutationVariables = Exact<{
+  input: EvaluateRequest;
+}>;
+
+
+export type EvaluateMutation = { __typename?: 'Mutation', evaluate: { __typename?: 'EvaluateResponse', id: string } };
 
 export type StartChatMutationVariables = Exact<{
   input: StartChatRequest;

@@ -22,7 +22,7 @@ class PrismaInteractionLogger implements InteractionLogger {
       data: {
         promptId,
         query,
-        result: results,
+        result: JSON.stringify(results),
         model,
         externalId,
       },
@@ -37,7 +37,7 @@ class PrismaInteractionLogger implements InteractionLogger {
         systemMessage:
           conversation.interactionCount > 0 ? "" : conversation.systemMessage,
         interactionCount: conversation.interactionCount,
-        messages: conversation.messages,
+        messages: JSON.stringify(conversation.messages),
         model,
       },
     });
