@@ -7,7 +7,7 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "turbo run dev --no-cache --continue"
+    "dev": "turbo run dev --parallel"
   },
   "devDependencies": {
     "prettier": "latest",
@@ -16,5 +16,5 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "packageManager": "yarn@3.4.1"
+  "packageManager": "yarn@3.2.0"
 }
