@@ -1,5 +1,4 @@
 {
-  "$schema": "https://turbo.build/schema.json",
   "pipeline": {
     "build": {
       "dependsOn": ["^build"],
@@ -9,9 +8,7 @@
       "outputs": []
     },
     "dev": {
-      "cache": false,
-      "persistent": true,
-      "dependsOn": ["^build"]
+      "cache": false
     }
   }
 }

@@ -16,7 +16,7 @@
     "lint": "rw lint"
   },
   "devDependencies": {
-    "@redwoodjs/core": "4.1.2"
+    "@redwoodjs/core": "4.5.0"
   },
   "eslintConfig": {
     "extends": "@redwoodjs/eslint-config",
