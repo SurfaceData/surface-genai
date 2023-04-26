@@ -37,7 +37,17 @@ model InteractionLog {
   result    Json[]
   model     String
 
+  evaluation InteractionEvaluationLog[]
+
   createdAt DateTime @default(now())
+}
+
+model InteractionEvaluationLog {
+  id             String @id @default(uuid())
+  interaction    InteractionLog @relation(fields: [interactionId], references: [id])
+  interactionId  String
+  evaluationType String
+  rating         String
 }
 
 model ChatLog {
@@ -51,5 +61,14 @@ model ChatLog {
 
   model     String
 
+  evaluation ChatEvaluationLog[]
   createdAt DateTime @default(now())
+}
+
+model ChatEvaluationLog {
+  id             String @id @default(uuid())
+  chat           ChatLog @relation(fields: [chatId], references: [id])
+  chatId         String
+  evaluationType String
+  rating         String
 }

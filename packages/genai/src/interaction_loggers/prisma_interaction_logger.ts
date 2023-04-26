@@ -43,6 +43,32 @@ class PrismaInteractionLogger implements InteractionLogger {
     });
     return id;
   }
+
+  async saveInteractionEvaluation(
+    requestId: string,
+    interactionType: string,
+    evaluationType: string,
+    rating: string
+  ) {
+    if (interactionType === "chat") {
+      const { id } = await this.prisma.chatEvaluationLog.create({
+        data: {
+          chatId: requestId,
+          evaluationType,
+          rating,
+        },
+      });
+      return id;
+    }
+    const { id } = await this.prisma.interactionEvaluationLog.create({
+      data: {
+        interactionId: requestId,
+        evaluationType,
+        rating,
+      },
+    });
+    return id;
+  }
 }
 
 export { PrismaInteractionLogger };

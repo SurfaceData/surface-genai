@@ -11,6 +11,13 @@ interface InteractionLogger {
   ): Promise<string> | string;
 
   saveChat(conversation: Conversation, model: string): Promise<string>;
+
+  saveInteractionEvaluation(
+    requestId: string,
+    interactionType: string,
+    evaluationType: string,
+    rating: string
+  ): Promise<string>;
 }
 
 export type { InteractionLogger };

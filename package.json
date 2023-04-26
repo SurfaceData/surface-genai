@@ -4,7 +4,10 @@
   "scripts": {
     "dev": "turbo run dev --no-cache --continue"
   },
-  "workspaces": ["apps/*", "packages/*"],
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "devDependencies": {
     "prettier": "latest",
     "turbo": "latest"

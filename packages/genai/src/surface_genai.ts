@@ -1,7 +1,11 @@
 import { Liquid } from "liquidjs";
 import { v4 as uuidv4 } from "uuid";
 
-import type { ChatStore, Conversation } from "src/chat_stores/chat_store";
+import type {
+  ChatStore,
+  Conversation,
+  Message,
+} from "src/chat_stores/chat_store";
 import type { InteractionLogger } from "src/interaction_loggers/interaction_logger";
 import type { ExperimentManager } from "src/experiment_managers/experiment_manager";
 import type { PromptStore } from "src/prompt_stores/prompt_store";
@@ -28,6 +32,7 @@ interface SurfaceGenaiResult {
 
 interface SurfaceGenaiConversationResult {
   conversation: Conversation;
+  newMessages: Array<Message>;
   requestId: string;
 }
 
@@ -136,6 +141,7 @@ class SurfaceGenai {
     return {
       requestId,
       conversation,
+      newMessages: [],
     };
   }
 
@@ -145,10 +151,13 @@ class SurfaceGenai {
   ): Promise<SurfaceGenaiConversationResult> {
     const conversation = await this.chatStore.getChat(chatId);
 
-    conversation.messages.push({
+    const newMessages = [];
+    newMessages.push({
       source: "user",
       content: query,
     });
+    conversation.messages.push(newMessages[0]);
+
     // Figure out which provider we will use.
     const id = uuidv4();
     const provider = await this.experimentManager.selectProvider(
@@ -160,10 +169,11 @@ class SurfaceGenai {
     // Generate.
     const result = await provider.chat(conversation);
 
-    conversation.messages.push({
+    newMessages.push({
       source: "assistant",
       content: result.text,
     });
+    conversation.messages.push(newMessages[1]);
     conversation.interactionCount += 1;
     await this.chatStore.updateChat(chatId, conversation);
 
@@ -175,6 +185,7 @@ class SurfaceGenai {
     return {
       requestId,
       conversation,
+      newMessages,
     };
   }
 }

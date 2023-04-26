@@ -13,6 +13,6 @@ export const startChat = async ({ input }) => {
 
 export const chat = async ({ input }) => {
   const { id, query } = input;
-  const { requestId, conversation } = await genai.chat(id, query);
-  return { id: conversation.id, requestId, messages: conversation.messages };
+  const { requestId, conversation, newMessages } = await genai.chat(id, query);
+  return { id: conversation.id, requestId, messages: newMessages };
 };

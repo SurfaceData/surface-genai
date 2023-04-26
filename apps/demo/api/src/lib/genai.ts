@@ -12,10 +12,12 @@ import { db } from 'src/lib/db';
 
 const chatStore = new InMemoryChatStore();
 
+const interactionLogger = new PrismaInteractionLogger(db);
+
 const genai = new SurfaceGenai({
   store: new PrismaPromptStore(db),
-  chatStore: chatStore,
-  interactionLogger: new PrismaInteractionLogger(db),
+  chatStore,
+  interactionLogger,
   providers: [
     new SurfaceLLMProvider({
       name: 'surface-llm',
@@ -70,4 +72,4 @@ const genai = new SurfaceGenai({
   */
 });
 
-export { genai };
+export { chatStore, genai, interactionLogger };
