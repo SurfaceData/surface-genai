@@ -3,7 +3,11 @@
   "private": true,
   "license": "Apache 2.0",
   "workspaces": {
-    "packages": ["api", "web", "packages/*"]
+    "packages": [
+      "api",
+      "web",
+      "packages/*"
+    ]
   },
   "scripts": {
     "dev": "rw dev",

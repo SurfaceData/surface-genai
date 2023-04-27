@@ -19003,6 +19003,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lucide-react@npm:^0.181.0":
+  version: 0.181.0
+  resolution: "lucide-react@npm:0.181.0"
+  peerDependencies:
+    react: ^16.5.1 || ^17.0.0 || ^18.0.0
+  checksum: 241dec23f8c888bdcf7c9d1124438b642b6bd2c2c32316430b383676f618366cee2d3341b1e1c2fdfeec68c9195c9261f7fd986a28d4154a4232d05f55fb5fb0
+  languageName: node
+  linkType: hard
+
 "lz-string@npm:^1.4.4":
   version: 1.5.0
   resolution: "lz-string@npm:1.5.0"
@@ -26919,6 +26928,7 @@ __metadata:
     "@redwoodjs/web": 4.5.0
     "@surfacedata/sd-components": ^0.0.16
     framer-motion: ^6
+    lucide-react: ^0.181.0
     prop-types: 15.8.1
     react: 17.0.2
     react-dom: 17.0.2

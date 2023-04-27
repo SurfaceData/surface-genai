@@ -1,9 +1,7 @@
+import { ArrowBigDown, ArrowBigUp } from 'lucide-react';
 import { useState } from 'react';
-import { Box, Container, Spinner } from '@chakra-ui/react';
-import { Form, Label, RadioField } from '@redwoodjs/forms';
+import { Box, IconButton } from '@chakra-ui/react';
 import { useMutation } from '@redwoodjs/web';
-
-import { Button } from '@surfacedata/sd-components';
 
 const EVALUATE = gql`
   mutation EvaluateMutation($input: EvaluateRequest!) {
@@ -14,40 +12,41 @@ const EVALUATE = gql`
 `;
 
 const EvaluateMessageForm = ({ requestId, interactionType }) => {
+  const [selected, setSelected] = useState('');
   const [evaluate] = useMutation(EVALUATE, {
     onCompleted: (data) => {
       console.log('done');
     },
   });
-  const onSubmit = (data) => {
+  const submitEvaluation = (target) => {
     evaluate({
       variables: {
         input: {
           requestId,
           interactionType,
           evalType: 'rating',
-          rating: data.rating,
+          rating: target,
         },
       },
     });
+    setSelected(target);
   };
-  return (
-    <Container>
-      <Form onSubmit={onSubmit}>
-        <Box display="flex" justifyContent="space-around">
-          <Box display="flex" gap="1">
-            <Label htmlFor="good">Good</Label>
-            <RadioField id="good" name="rating" value="good" label="Good" />
-          </Box>
 
-          <Box display="flex" gap="1">
-            <Label htmlFor="bad">Bad</Label>
-            <RadioField id="bad" name="rating" value="bad" label="Bad" />
-          </Box>
-        </Box>
-        <Button type="submit">done</Button>
-      </Form>
-    </Container>
+  return (
+    <Box display="flex" justifyContent="end" gap="2">
+      <IconButton
+        onClick={() => submitEvaluation('good')}
+        isActive={selected === 'good'}
+        aria-label="Vote Up"
+        icon={<ArrowBigUp />}
+      />
+      <IconButton
+        onClick={() => submitEvaluation('bad')}
+        isActive={selected === 'bad'}
+        aria-label="Vote Down"
+        icon={<ArrowBigDown />}
+      />
+    </Box>
   );
 };
 
